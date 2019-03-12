@@ -16,13 +16,21 @@ def get_fact():
 
     return facts[0].getText()
 
+def get_pig_latin_url(fact):
+
+    r = requests.post('https://hidden-journey-62459.herokuapp.com/piglatinize/', data = {'input_text':fact})
+
+    return r.url
+
 
 @app.route('/')
 def home():
-    return "FILL ME!"
+    fact = get_fact().strip()
+    body = get_pig_latin_url(fact)
+
+    return Response(response=body,mimetype = "text/html")
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 6787))
     app.run(host='0.0.0.0', port=port)
-
